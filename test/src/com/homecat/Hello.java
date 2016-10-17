@@ -10,6 +10,7 @@ class Hello {
 
 	public static void main(String[] args) {
 		try {
+			//注意这里需要改为你的MYSQL服务器IP账号
 			Connection con = DriverManager.getConnection(
 					"jdbc:mysql://192.168.0.8:3306/test", "root", "123456");
 			Statement stmt = con.createStatement();
