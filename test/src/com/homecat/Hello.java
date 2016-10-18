@@ -1,33 +1,43 @@
+/**
+ * 2016-10-17 18:11 星期一 天气：阴雨
+ */
 package com.homecat;
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.ResultSet;
 
-class Hello {
+public class Hello extends HttpServlet{
+	
+	private String message;
+	
+	public void init() throws ServletException{
+		message = "hello world";
+	}
 
-	public static void main(String[] args) {
+	public void doGet(HttpServletRequest request,HttpServletResponse response)throws ServletException, IOException{
+		PrintWriter out = response.getWriter();
 		try {
-			//注意这里pull之后需要改为你的MYSQL服务器账号
 			Connection con = DriverManager.getConnection(
 					"jdbc:mysql://192.168.0.8:3306/test", "root", "123456");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT * FROM books");
-			while (rs.next()) {
-				System.out.println(rs.getString(1) +"\t"+ rs.getString(2)
-						+"\t"+ rs.getString(3));
+			while (rs.next()){
+				out.println(rs.getString(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3));
 			}
 			rs.close();
 			stmt.close();
 			con.close();
 		} catch (SQLException se) {
-			System.out.println("数据库连接失败！");
+			System.out.println("Db connection fail!");
 			se.printStackTrace();
 		}
 	}
+
 }
-
-
-
